@@ -131,6 +131,15 @@ function Elems(elems){
 		action('enter', f);
 		return this;
 	};
+
+	this.toggleAction = function (elem, f){
+		if (f === 'undefined'){
+			elem.onclick = '';
+			return this;
+		}
+		elem.onclick = f;
+		return this;
+	};
 }
 
 function jq(selector){

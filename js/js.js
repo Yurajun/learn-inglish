@@ -1,4 +1,6 @@
 /* global jq */
+
+
 let vocabulary = [];
 
 function updateLocalStorage(val){
@@ -211,7 +213,8 @@ jq('#know').click(function (){
 	knowWord(txtRus);
 });
 
-jq('#hint').click(function (){
+jq('#hint').click(function showHelp(){
+	jq(this).toggleAction(this);
 	const txtRus = jq('#text-rus').text();
 	const boxMessage = jq('.add-msg');
 	let i = 0;
@@ -225,9 +228,9 @@ jq('#hint').click(function (){
 	boxMessage.html(inglWord).setCss('color', 'orange').fadeIn(500, function (){
 		boxMessage.fadeOut(500, function (){
 			boxMessage.html(' ').setCss('display', 'block').setCss('opacity', 1);
+			jq(this).toggleAction(this, showHelp);
 		});
 	});
-
 });
 
 jq('.table-box').hide();
@@ -248,3 +251,5 @@ jq('#words').click(function (){
 		});
 	}
 });
+
+
