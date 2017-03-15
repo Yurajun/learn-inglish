@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Учим английские слова</title>
+	<link rel="stylesheet" href="styles/style.css">
+	<script src="js/my-jquery.js"></script>
+	<script id="my-template" type="text/my-template">
+		<tr>
+			<td>{{ID}}</td>
+			<td>{{RUS}}</td>
+			<td>{{ING}}</td>
+			<td class="know-word" onclick='knowWord("{{RUS}}")'>{{KNOW}}</td>
+			<td class="delete-word"onclick='deletWord("{{RUS}}")'>X</td>
+		</tr>
+	</script>
+	<script id="my-template__popap" type="text/my-template">
+		<div class="popap">
+			<div class="popap-wrapper">
+				<p class="popap__p">Вы действительно хотите удалить слово <span class="popap__p-word">{{WORD}}</span>?</p>
+				<div class="popap__button-box">
+					<button class="popap-button yes-delete">Да</button>
+					<button class="popap-button no-delete">Нет</button>
+				</div>
+			</div>
+		</div>
+	</script>
+</head>
+<body>
+	<div class="wrapper">
+		<h2 class="header-h2">Учить слова это просто</h2>
+		<div class="input-box">
+			<input type="text" id="text-rus">
+			<input type="text" id="text-ingl">
+			<button id="check">Проверить</button>
+			<button id="hint">Подсказка</button>
+			<div class="message-box">
+				<div class="add-msg"></div>
+			</div>
+		</div>
+		<div class="button-box">
+			<button id="add-word">Добавить</button>
+			<button id="know">Я уже знаю слово</button>
+			<button id="words">Показать словарь</button>
+			<button id="reverse">Reverse</button>
+		</div>
+		<table class="table-box">
+			<thead>
+				<tr>
+					<th>N</th>
+					<th>Русское</th>
+					<th>Перевод</th>
+					<th>Знаю / Забыл</th>
+					<th>Удалить</th>
+				</tr>
+			</thead>
+			<tbody id="output">
+				<tr>
+					<td>3</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="window-popap"></div>
+	<script src="js/js.js"></script>
+</body>
+</html>

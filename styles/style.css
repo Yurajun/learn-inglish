@@ -1,0 +1,115 @@
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.wrapper {
+	margin: 0 auto;
+	width: 600px;
+}
+.delete-word {
+	text-align: center;
+	cursor: pointer;
+	background: silver;
+}
+.know-word {
+	text-align: center;
+	cursor: pointer;
+}
+#reverse {
+	font-size: 12px;
+}
+.table-box td {
+	padding: 0 5px;
+	text-align: center;
+	border: 1px solid #cdd;
+}
+.table-box tr:nth-of-type(odd) {
+	background: #ccc;
+}
+.table-box tr:nth-of-type(even) {
+	background: #fcc;
+}
+.input-box {
+	margin: 20px;
+}
+.add-msg {
+	font-size: 26px;
+}
+.button-box {
+	margin: 20px;
+}
+.table-box {
+	margin: 20px;
+}
+.message-box {
+	width: 500px;
+	height: 40px;
+	font-weight: bold;
+	text-align: center;
+	color: green;
+}
+table {
+	width: 400px;
+}
+
+.add-msg {
+	line-height: 40px;
+}
+#text-rus, #text-ingl {
+	width: 278px;
+	height: 50px;
+	font-size: 34px;
+	line-height: 50px;
+	text-indent: 10px;
+	color: #111;
+}
+html {
+	background: #111;
+}
+.header-h2 {
+	text-align: center;
+	color: #e6e6e6;
+	font-size: 42px;
+}
+button {
+	font-size: 20px;
+}
+.popap {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, .75);
+}
+.popap-wrapper {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	width: 400px;
+	height: 140px;
+	margin-left: -200px;
+	margin-top: -70px;
+	background: #4a4545;
+	border: 1px solid #b3aeae;
+	border-radius: 10px;
+	text-align: center;
+}
+.popap__p {
+	color: #ece5e5;
+	font-size: 18px;
+}
+.popap__p-word {
+	font-weight: bold;
+	color: #f30;
+	font-size: 22px;
+}
+.popap__button-box {
+	text-align: center;
+	padding-top: 15px;
+}
+.popap-button {
+	width: 100px;
+	height: 30px;
+}
