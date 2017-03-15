@@ -182,16 +182,25 @@ function deletWord(key){
 	});
 }
 
+let reverseFlag = false;
+
 jq('#reverse').click(function (){
 	let i = 0;
 	for (i; i < vocabulary.length; i++){
-		if (vocabulary[i][2] === 'Знаю'){
+		if (vocabulary[i][2] === 'Знаю' && vocabulary[i][2] !== 'Знаю железно'){
 			vocabulary[i][2] = 'Учу';
-		}else {
+		}else if (vocabulary[i][2] === 'Учу'){
 			vocabulary[i][2] = 'Знаю';
 		}
 	}
 	updateBlock();
+	if (reverseFlag){
+		jq(this).setCss('backgroundColor', 'silver');
+		reverseFlag = false;
+	}else {
+		jq(this).setCss('backgroundColor', 'green');
+		reverseFlag = true;
+	}
 });
 
 function knowWord(key){
@@ -199,6 +208,8 @@ function knowWord(key){
 	for (i; i < vocabulary.length; i++){
 		if (vocabulary[i][0] === key){
 			if (vocabulary[i][2] === 'Знаю'){
+				vocabulary[i][2] = 'Знаю железно';
+			}else if (vocabulary[i][2] === 'Знаю железно'){
 				vocabulary[i][2] = 'Учу';
 			}else {
 				vocabulary[i][2] = 'Знаю';
@@ -214,9 +225,10 @@ jq('#know').click(function (){
 });
 
 jq('#hint').click(function showHelp(){
-	jq(this).toggleAction(this);
+	const self = this;
 	const txtRus = jq('#text-rus').text();
 	const boxMessage = jq('.add-msg');
+	jq(self).toggleAction(self);
 	let i = 0;
 	let inglWord;
 	for (i; i < vocabulary.length; i++){
@@ -228,7 +240,7 @@ jq('#hint').click(function showHelp(){
 	boxMessage.html(inglWord).setCss('color', 'orange').fadeIn(500, function (){
 		boxMessage.fadeOut(500, function (){
 			boxMessage.html(' ').setCss('display', 'block').setCss('opacity', 1);
-			jq(this).toggleAction(this, showHelp);
+			jq(self).toggleAction(self, showHelp);
 		});
 	});
 });

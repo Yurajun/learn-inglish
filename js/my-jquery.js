@@ -94,6 +94,8 @@ function Elems(elems){
 		const value = val || 'undefined';
 		if (property === 'undefined' && value === 'undefined'){
 			return this;
+		}else if (value === 'undefined'){
+			return elements[0].style[property];
 		}
 		let i = 0;
 		for (i; i < elements.length; i++){
