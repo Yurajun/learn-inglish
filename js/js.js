@@ -3,6 +3,13 @@
 
 let vocabulary = [];
 
+let reverseFlag = JSON.parse(localStorage.getItem('reverseFlag'));
+if (!reverseFlag){
+	console.log(reverseFlag);
+	reverseFlag = false;
+	localStorage.setItem('reverseFlag', reverseFlag);
+}
+
 function updateLocalStorage(val){
 	const obj = JSON.stringify(val);
 	localStorage.setItem('vocabulary', obj);
@@ -12,7 +19,7 @@ function mySort(val1, val2){
 	return val1[2].length - val2[2].length;
 }
 
-function getVocabulary() {
+function getVocabulary(){
 	const library = localStorage.getItem('vocabulary');
 	if (library) {
 		vocabulary = JSON.parse(library);
@@ -208,9 +215,25 @@ function deletWord(key){
 	});
 }
 
-let reverseFlag = false;
+function reverseLibrary(){
+	const buttonReverse = jq('#reverse');
+	buttonReverse.html(' ');
+	if (!reverseFlag){
+		buttonReverse.setCss('backgroundColor', 'silver');
+		buttonReverse.html('Учу');
+		localStorage.setItem('reverseFlag', false);
+	}else {
+		buttonReverse.setCss('backgroundColor', 'green');
+		buttonReverse.html('Повторяю выученные');
+		localStorage.setItem('reverseFlag', true);
+	}
+	vocabulary.sort(mySort);
+	updateLocalStorage(vocabulary);
+	updateTable();
+	getRandomWordReverse();
+}
 
-jq('#reverse').click(function (){
+function updateReverse(){
 	let i = 0;
 	for (i; i < vocabulary.length; i++){
 		if (vocabulary[i][2] === 'Знаю' && vocabulary[i][2] !== 'Знаю железно'){
@@ -219,18 +242,22 @@ jq('#reverse').click(function (){
 			vocabulary[i][2] = 'Знаю';
 		}
 	}
-	if (reverseFlag){
-		jq(this).setCss('backgroundColor', 'silver');
-		reverseFlag = false;
-	}else {
-		jq(this).setCss('backgroundColor', 'green');
+	if (!reverseFlag){
+		localStorage.setItem('reverseFlag', true);
 		reverseFlag = true;
+		reverseLibrary();
+	}else {
+		localStorage.setItem('reverseFlag', false);
+		reverseFlag = false;
+		reverseLibrary();
 	}
-	vocabulary.sort(mySort);
-	updateLocalStorage(vocabulary);
-	updateTable();
-	getRandomWordReverse();
-});
+}
+
+jq('#reverse').click(updateReverse);
+
+if (reverseFlag){
+	reverseLibrary();
+}
 
 function knowWord(key){
 	let i = 0;
