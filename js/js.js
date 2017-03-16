@@ -1,7 +1,13 @@
 /* global jq */
-
-
 let vocabulary = [];
+
+let repeatWords = localStorage.getItem('repeatWords');
+repeatWords = repeatWords.split(' ');
+if (!repeatWords){
+	console.log(repeatWords);
+	repeatWords = [];
+	localStorage.setItem('reverseFlag', repeatWords);
+}
 
 let reverseFlag = JSON.parse(localStorage.getItem('reverseFlag'));
 if (!reverseFlag){
@@ -17,6 +23,16 @@ function updateLocalStorage(val){
 
 function mySort(val1, val2){
 	return val1[2].length - val2[2].length;
+}
+
+function addItemArray(arr, item){
+	let i = 0;
+	for (i; i <= arr.length; i++){
+		if (arr[i] === item){
+			return;
+		}
+	}
+	arr.push(item);
 }
 
 function getVocabulary(){
@@ -68,14 +84,9 @@ const arrRandomNumber = [];
 
 function getRandomWordReverse(){
 	const random = getRandomInt(0, countWordsLearn());
-	let i = 0;
-	for (i; i <= arrRandomNumber.length; i++){
-		if (arrRandomNumber[i] === random){
-			continue;
-		}
-		arrRandomNumber.push(random);
-		break;
-	}
+	addItemArray(arrRandomNumber, random);
+	console.log(countWordsLearn());
+	console.log(arrRandomNumber.length);
 	console.log(arrRandomNumber);
 	console.log('r: ', arrRandomNumber[arrRandomNumber.length - 1]);
 	wordRus = vocabulary[arrRandomNumber[arrRandomNumber.length - 1]][0];
@@ -161,6 +172,10 @@ function updateBlock(){
 	}
 }
 
+function repeatWordsAddLearn(){
+	// if ()
+}
+
 jq('#add-word').click(function (){
 	const arr = new Array(3);
 	const boxMessage = jq('.add-msg');
@@ -196,9 +211,12 @@ function deletWord(key){
 	body.setCss('overflow', 'hidden');
 	windowPopap.html(' ');
 	windowPopap.html(createWord(key)).fadeIn(300, function (){
-		jq('.yes-delete').click(function (){
+		jq('.yes-delete').click(function yesDelete(){
+			const self = this;
+			jq(self).toggleAction(self);
 			windowPopap.fadeOut(300, function (){
 				windowPopap.hide();
+				jq(self).toggleAction(self, yesDelete);
 				body.setCss('overflow', 'auto');
 			});
 			let i = 0;
@@ -210,9 +228,12 @@ function deletWord(key){
 			updateLocalStorage(vocabulary);
 			updateBlock();
 		});
-		jq('.no-delete').click(function (){
+		jq('.no-delete').click(function noDelete(){
+			const self = this;
+			jq(self).toggleAction(self);
 			windowPopap.fadeOut(300, function (){
 				windowPopap.hide();
+				jq(self).toggleAction(self, noDelete);
 				body.setCss('overflow', 'auto');
 			});
 		});
@@ -225,16 +246,26 @@ function reverseLibrary(){
 	if (!reverseFlag){
 		buttonReverse.setCss('backgroundColor', 'silver');
 		buttonReverse.html('Учу');
+		jq('#know').html(' ');
+		jq('#know').html('Я уже знаю слово');
 		localStorage.setItem('reverseFlag', false);
 	}else {
 		buttonReverse.setCss('backgroundColor', 'green');
 		buttonReverse.html('Повторяю выученные');
+		jq('#know').html(' ');
+		jq('#know').html('Отметить для повторения');
 		localStorage.setItem('reverseFlag', true);
 	}
 	updateBlock();
 }
 
 function updateReverse(){
+	if (arrRandomNumber.length === countWordsLearn()){
+		jq('#reverse').toggleAction(jq('#reverse'));
+	}else {
+		jq('#reverse').toggleAction(jq('#reverse'));
+	}
+	// const buttonReverse = jq('#reverse');
 	let i = 0;
 	for (i; i < vocabulary.length; i++){
 		if (vocabulary[i][2] === 'Знаю' && vocabulary[i][2] !== 'Знаю железно'){
@@ -276,21 +307,12 @@ function knowWord(key){
 	updateBlock();
 }
 
-const repeatWords = [];
-
 jq('#know').click(function (){
 	const txtRus = jq('#text-rus').text();
 	if (reverseFlag){
-		jq(this).html(' ');
-		jq(this).html('Отметить для повторения');
-		let i = 0;
-		for (i; i < repeatWords.length; i++){
-			if (repeatWords[i] === txtRus){
-				break;
-			}
-			repeatWords.push(txtRus);
-		}
+		addItemArray(repeatWords, txtRus);
 		console.log(repeatWords);
+		localStorage.setItem('repeatWords', repeatWords);
 	}else {
 		knowWord(txtRus);
 	}
@@ -321,16 +343,21 @@ jq('.table-box').hide();
 
 let flag = true;
 
-jq('#words').click(function (){
+jq('#words').click(function libr(){
+	const self = this;
+	jq(self).toggleAction(self);
 	jq(this).html(' ');
 	if (flag){
 		jq(this).html('Скрыть словарь');
-		jq('.table-box').fadeIn(600);
+		jq('.table-box').fadeIn(600, function (){
+			jq(self).toggleAction(self, libr);
+		});
 		flag = false;
 	}else {
 		jq(this).html('Показать словарь');
 		jq('.table-box').fadeOut(600, function (){
 			jq('.table-box').hide();
+			jq(self).toggleAction(self, libr);
 			flag = true;
 		});
 	}

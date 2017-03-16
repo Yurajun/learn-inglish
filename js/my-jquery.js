@@ -142,6 +142,8 @@ function Elems(elems){
 		elem.onclick = f;
 		return this;
 	};
+
+	// this.d
 }
 
 function jq(selector){
