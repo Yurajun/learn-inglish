@@ -34,9 +34,8 @@ function getRandomInt(min, max){
 
 let wordRus;
 let wordIng;
-let random = 0;
 
-function getRandomWord() {
+function countWordsLearn(){
 	let i = 0;
 	let count = -1;
 	if (vocabulary.length === 0){
@@ -47,10 +46,37 @@ function getRandomWord() {
 			count += 1;
 		}
 	}
-	random = getRandomInt(0, count);
+	return count;
+}
+
+function getRandomWord() {
+	const random = getRandomInt(0, countWordsLearn());
 	console.log(random);
 	wordRus = vocabulary[random][0];
 	wordIng = vocabulary[random][1];
+	jq('#text-rus').text(wordRus);
+}
+
+function getRandomWordReverse(){
+	const arrRandomNumber = [];
+	const random = getRandomInt(0, countWordsLearn());
+	let i = 0;
+	for (i; i <= arrRandomNumber.length; i++){
+		console.log(arrRandomNumber[i]);
+		console.log(typeof arrRandomNumber[i]);
+		if (arrRandomNumber[i] === random){
+			continue;
+		}
+		arrRandomNumber.push(random);
+		break;
+	}
+	console.log(arrRandomNumber[arrRandomNumber.length - 1]);
+	const a = arrRandomNumber[arrRandomNumber.length - 1];
+	console.log(a);
+	console.log(vocabulary[a]);
+	console.log(vocabulary[a][0]);
+	wordRus = vocabulary[arrRandomNumber[arrRandomNumber.length - 1]][0];
+	wordIng = vocabulary[arrRandomNumber[arrRandomNumber.length - 1]][1];
 	jq('#text-rus').text(wordRus);
 }
 
@@ -193,7 +219,6 @@ jq('#reverse').click(function (){
 			vocabulary[i][2] = 'Знаю';
 		}
 	}
-	updateBlock();
 	if (reverseFlag){
 		jq(this).setCss('backgroundColor', 'silver');
 		reverseFlag = false;
@@ -201,6 +226,10 @@ jq('#reverse').click(function (){
 		jq(this).setCss('backgroundColor', 'green');
 		reverseFlag = true;
 	}
+	vocabulary.sort(mySort);
+	updateLocalStorage(vocabulary);
+	updateTable();
+	getRandomWordReverse();
 });
 
 function knowWord(key){
