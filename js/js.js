@@ -58,30 +58,26 @@ function countWordsLearn(){
 
 function getRandomWord() {
 	const random = getRandomInt(0, countWordsLearn());
-	console.log(random);
+	console.log('g: ', random);
 	wordRus = vocabulary[random][0];
 	wordIng = vocabulary[random][1];
 	jq('#text-rus').text(wordRus);
 }
 
+const arrRandomNumber = [];
+
 function getRandomWordReverse(){
-	const arrRandomNumber = [];
 	const random = getRandomInt(0, countWordsLearn());
 	let i = 0;
 	for (i; i <= arrRandomNumber.length; i++){
-		console.log(arrRandomNumber[i]);
-		console.log(typeof arrRandomNumber[i]);
 		if (arrRandomNumber[i] === random){
 			continue;
 		}
 		arrRandomNumber.push(random);
 		break;
 	}
-	console.log(arrRandomNumber[arrRandomNumber.length - 1]);
-	const a = arrRandomNumber[arrRandomNumber.length - 1];
-	console.log(a);
-	console.log(vocabulary[a]);
-	console.log(vocabulary[a][0]);
+	console.log(arrRandomNumber);
+	console.log('r: ', arrRandomNumber[arrRandomNumber.length - 1]);
 	wordRus = vocabulary[arrRandomNumber[arrRandomNumber.length - 1]][0];
 	wordIng = vocabulary[arrRandomNumber[arrRandomNumber.length - 1]][1];
 	jq('#text-rus').text(wordRus);
@@ -97,7 +93,11 @@ function checkResult(){
 		boxMessage.html(' ');
 		boxMessage.html('Все верно!!!!!!!').setCss('color', 'green');
 		jq('#text-ingl').text(' ');
-		getRandomWord();
+		if (reverseFlag){
+			getRandomWordReverse();
+		}else {
+			getRandomWord();
+		}
 	}else {
 		boxMessage.html(' ');
 		boxMessage.html('Ответ не верен (').setCss('color', 'red');
@@ -154,7 +154,11 @@ function updateBlock(){
 	vocabulary.sort(mySort);
 	updateLocalStorage(vocabulary);
 	updateTable();
-	getRandomWord();
+	if (reverseFlag){
+		getRandomWordReverse();
+	}else {
+		getRandomWord();
+	}
 }
 
 jq('#add-word').click(function (){
@@ -227,10 +231,7 @@ function reverseLibrary(){
 		buttonReverse.html('Повторяю выученные');
 		localStorage.setItem('reverseFlag', true);
 	}
-	vocabulary.sort(mySort);
-	updateLocalStorage(vocabulary);
-	updateTable();
-	getRandomWordReverse();
+	updateBlock();
 }
 
 function updateReverse(){
@@ -275,9 +276,24 @@ function knowWord(key){
 	updateBlock();
 }
 
+const repeatWords = [];
+
 jq('#know').click(function (){
 	const txtRus = jq('#text-rus').text();
-	knowWord(txtRus);
+	if (reverseFlag){
+		jq(this).html(' ');
+		jq(this).html('Отметить для повторения');
+		let i = 0;
+		for (i; i < repeatWords.length; i++){
+			if (repeatWords[i] === txtRus){
+				break;
+			}
+			repeatWords.push(txtRus);
+		}
+		console.log(repeatWords);
+	}else {
+		knowWord(txtRus);
+	}
 });
 
 jq('#hint').click(function showHelp(){

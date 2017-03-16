@@ -12,7 +12,7 @@
 	cursor: pointer;
 	background: silver;
 }
-.know-word {
+.know-word, .redact-word {
 	text-align: center;
 	cursor: pointer;
 }
