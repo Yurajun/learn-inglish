@@ -1,45 +1,45 @@
-/* eslint no-labels: ["error", { "allowLoop": true }]*/
 /* global jq */
 
 let libConfig = {
 	vocabulary: [],
 	repeatWords: [],
-	reverseFlag: 'false'
+	reverseFlag: '',
+	arrRandomNumber: []
 };
 
-/**
- * [getVocabulary получает базу данных из localStorage]
- * @return {[type]} [no-return]
- */
 function getVocabulary(){
 	const state = localStorage.getItem('learnEnglish');
 	if (state) {
 		libConfig = JSON.parse(state);
-		console.log(libConfig.repeatWords);
-		console.log(libConfig.reverseFlag);
 	}else {
 		localStorage.setItem('learnEnglish', JSON.stringify(libConfig));
 	}
 }
 
 getVocabulary();
+//
+let vocabulary = [];
 
-function adda(arr, vac){
-	let num = 0;
-	metka:
-	for (let i = 0; i < vac.length; i++){
-		const str = vac[i][0];
-		for (let j = 0; j < arr.length; j++){
-			if (str === arr[j]){
-				vac[i][2] = 'znayu';
-				if (++num === arr.length){
-					break metka;
-				}
-				break;
-			}
-		}
-	}
-	console.log(vac);
+let repeatWords = localStorage.getItem('repeatWords');
+repeatWords = repeatWords.split(' ');
+if (!repeatWords){
+	console.log(repeatWords);
+	repeatWords = [];
+	localStorage.setItem('reverseFlag', repeatWords);
+}
+
+let reverseFlag = JSON.parse(localStorage.getItem('reverseFlag'));
+if (!reverseFlag){
+	console.log(reverseFlag);
+	reverseFlag = false;
+	localStorage.setItem('reverseFlag', reverseFlag);
+}
+
+function updateLocalStorage(arrayWords){
+	// const obj = JSON.stringify(val);
+	libConfig.vocabulary = arrayWords;
+	localStorage.setItem('learnEnglish', JSON.stringify(libConfig));
+	// localStorage.setItem('vocabulary', obj);
 }
 
 function mySort(val1, val2){
@@ -50,11 +50,22 @@ function addItemArray(arr, item){
 	let i = 0;
 	for (i; i <= arr.length; i++){
 		if (arr[i] === item){
-			return false;
+			return;
 		}
 	}
 	arr.push(item);
-	return true;
+}
+
+/* function getVocabulary(){
+	const library = localStorage.getItem('vocabulary');
+	if (library) {
+		vocabulary = JSON.parse(library);
+	}
+}*/
+
+const dictionary = localStorage.getItem('vocabulary');
+if (dictionary) {
+	vocabulary = JSON.parse(dictionary);
 }
 
 let textRus;
@@ -69,40 +80,38 @@ let wordRus;
 let wordIng;
 
 function countWordsLearn(){
-	let count = 0;
-	if (libConfig.vocabulary.length === 0){
-		return 0;
+	let i = 0;
+	let count = -1;
+	if (vocabulary.length === 0){
+		return;
 	}
-	for (let i = 0; i < libConfig.vocabulary.length; i++){
-		if (libConfig.vocabulary[i][2] === 'Учу'){
-			count++;
+	for (i; i < vocabulary.length; i++){
+		if (vocabulary[i][2] === 'Учу'){
+			count += 1;
 		}
 	}
 	return count;
 }
 
 function getRandomWord() {
-	const random = getRandomInt(0, countWordsLearn() - 1);
+	const random = getRandomInt(0, countWordsLearn());
 	console.log('g: ', random);
-	wordRus = libConfig.vocabulary[random][0];
-	wordIng = libConfig.vocabulary[random][1];
+	wordRus = vocabulary[random][0];
+	wordIng = vocabulary[random][1];
 	jq('#text-rus').text(wordRus);
 }
 
 const arrRandomNumber = [];
 
 function getRandomWordReverse(){
-	const random = getRandomInt(0, countWordsLearn() - 1);
-	if (!addItemArray(arrRandomNumber, random)){
-		if (arrRandomNumber.length === countWordsLearn()){
-			updateReverse();
-			return;
-		}
-		getRandomWordReverse();
-		return;
-	}
-	wordRus = libConfig.vocabulary[arrRandomNumber[arrRandomNumber.length - 1]][0];
-	wordIng = libConfig.vocabulary[arrRandomNumber[arrRandomNumber.length - 1]][1];
+	const random = getRandomInt(0, countWordsLearn());
+	addItemArray(arrRandomNumber, random);
+	console.log(countWordsLearn());
+	console.log(arrRandomNumber.length);
+	console.log(arrRandomNumber);
+	console.log('r: ', arrRandomNumber[arrRandomNumber.length - 1]);
+	wordRus = vocabulary[arrRandomNumber[arrRandomNumber.length - 1]][0];
+	wordIng = vocabulary[arrRandomNumber[arrRandomNumber.length - 1]][1];
 	jq('#text-rus').text(wordRus);
 }
 
@@ -116,7 +125,7 @@ function checkResult(){
 		boxMessage.html(' ');
 		boxMessage.html('Все верно!!!!!!!').setCss('color', 'green');
 		jq('#text-ingl').text(' ');
-		if (libConfig.reverseFlag){
+		if (reverseFlag){
 			getRandomWordReverse();
 		}else {
 			getRandomWord();
@@ -139,6 +148,7 @@ jq('#check').click(function (){
 });
 
 function updateTable(){
+	getVocabulary();
 	const tbody = jq('#output');
 	tbody.html(' ');
 
@@ -149,42 +159,34 @@ function updateTable(){
 									.replace(/{{KNOW}}/ig, p.know);
 	}
 
-	let numberId = 1;
-	let str = '';
-	for (let i = 0; i < libConfig.vocabulary.length; i++){
+	let i = 0;
+	for (i; i < vocabulary.length; i++){
 		const params = {
-			id: numberId++,
+			id: i,
 			key: libConfig.vocabulary[i][0],
 			val: libConfig.vocabulary[i][1],
 			know: libConfig.vocabulary[i][2]
 		};
-		str += createRow(params);
+		tbody.html(createRow(params));
 	}
-	tbody.html(str);
 }
 
 updateTable();
 
 function checkWord(word){
 	let i = 0;
-	for (i; i < libConfig.vocabulary.length; i++){
-		if (libConfig.vocabulary[i][0] === word ){
+	for (i; i < vocabulary.length; i++){
+		if (vocabulary[i][0] === word ){
 			return true;
 		}
 	}
 }
 
-function updateLocalStorage(arrayWords){
-	libConfig.vocabulary = arrayWords;
-	localStorage.setItem('learnEnglish', JSON.stringify(libConfig));
-}
-
 function updateBlock(){
-	libConfig.vocabulary.sort(mySort);
-	// updateLocalStorage(libConfig.vocabulary);
-	localStorage.setItem('learnEnglish', JSON.stringify(libConfig));
+	vocabulary.sort(mySort);
+	updateLocalStorage(vocabulary);
 	updateTable();
-	if (libConfig.reverseFlag){
+	if (reverseFlag){
 		getRandomWordReverse();
 	}else {
 		getRandomWord();
@@ -210,7 +212,7 @@ jq('#add-word').click(function (){
 		arr[0] = textRus;
 		arr[1] = textIng;
 		arr[2] = 'Учу';
-		libConfig.vocabulary.push(arr);
+		vocabulary.push(arr);
 		updateBlock();
 		jq('#text-ingl').text(' ');
 		getRandomWord();
@@ -238,13 +240,13 @@ function deletWord(key){
 				jq(self).toggleAction(self, yesDelete);
 				body.setCss('overflow', 'auto');
 			});
-
-			for (let i = 0; i < libConfig.vocabulary.length; i++){
-				if (libConfig.vocabulary[i][0] === key){
-					libConfig.vocabulary.splice(i, 1);
+			let i = 0;
+			for (i; i < vocabulary.length; i++){
+				if (vocabulary[i][0] === key){
+					vocabulary.splice(i, 1);
 				}
 			}
-			updateLocalStorage(libConfig.vocabulary);
+			updateLocalStorage(vocabulary);
 			updateBlock();
 		});
 		jq('.no-delete').click(function noDelete(){
@@ -260,65 +262,107 @@ function deletWord(key){
 }
 
 function reverseLibrary(){
-	arrRandomNumber.length = 0;
 	const buttonReverse = jq('#reverse');
 	buttonReverse.html(' ');
-	jq('#know').html(' ');
-	if (libConfig.reverseFlag){
-		buttonReverse.setCss('backgroundColor', 'green');
-		buttonReverse.html('Повторяю выученные');
-		jq('#know').html('Отметить для повторения');
-	}else {
+	if (!reverseFlag){
 		buttonReverse.setCss('backgroundColor', 'silver');
 		buttonReverse.html('Учу');
+		jq('#know').html(' ');
 		jq('#know').html('Я уже знаю слово');
+		localStorage.setItem('reverseFlag', false);
+	}else {
+		buttonReverse.setCss('backgroundColor', 'green');
+		buttonReverse.html('Повторяю выученные');
+		jq('#know').html(' ');
+		jq('#know').html('Отметить для повторения');
+		localStorage.setItem('reverseFlag', true);
 	}
 	updateBlock();
 }
 
-const buttonLibrary = document.querySelector('#words');
-const tableBox = document.querySelector('.table-box');
-let flag = true;
-
-const buttonWords = jq('#words');
-
 function updateReverse(){
-	for (let i = 0; i < libConfig.vocabulary.length; i++){
-		if (libConfig.vocabulary[i][2] === 'Знаю' && libConfig.vocabulary[i][2] !== 'Знаю железно'){
-			libConfig.vocabulary[i][2] = 'Учу';
-		}else if (libConfig.vocabulary[i][2] === 'Учу'){
-			libConfig.vocabulary[i][2] = 'Знаю';
+	if (arrRandomNumber.length === countWordsLearn()){
+		jq('#reverse').toggleAction(jq('#reverse'));
+	}else {
+		jq('#reverse').toggleAction(jq('#reverse'));
+	}
+	// const buttonReverse = jq('#reverse');
+	let i = 0;
+	for (i; i < vocabulary.length; i++){
+		if (vocabulary[i][2] === 'Знаю' && vocabulary[i][2] !== 'Знаю железно'){
+			vocabulary[i][2] = 'Учу';
+		}else if (vocabulary[i][2] === 'Учу'){
+			vocabulary[i][2] = 'Знаю';
 		}
 	}
-	buttonWords.html(' ');
-	if (libConfig.reverseFlag){
-		libConfig.reverseFlag = false;
-		buttonLibrary.disabled = false;
-		flag = true;
-		buttonWords.html('Показать словарь');
+	if (!reverseFlag){
+		localStorage.setItem('reverseFlag', true);
+		reverseFlag = true;
+		reverseLibrary();
 	}else {
-		libConfig.reverseFlag = true;
-		buttonLibrary.disabled = true;
-		flag = false;
-		jq('.table-box').fadeOut(600, function (){
-			jq('.table-box').hide();
-		});
-		buttonWords.html('Заблокировано');
+		localStorage.setItem('reverseFlag', false);
+		reverseFlag = false;
+		reverseLibrary();
 	}
-	console.log(libConfig.reverseFlag);
-	reverseLibrary();
 }
 
 jq('#reverse').click(updateReverse);
 
-if (libConfig.reverseFlag){
+if (reverseFlag){
 	reverseLibrary();
-	buttonLibrary.disabled = true;
-	flag = false;
-	tableBox.style.display = 'none';
-	buttonWords.html(' ');
-	buttonWords.html('Заблокировано');
 }
+
+function knowWord(key){
+	let i = 0;
+	for (i; i < vocabulary.length; i++){
+		if (vocabulary[i][0] === key){
+			if (vocabulary[i][2] === 'Знаю'){
+				vocabulary[i][2] = 'Знаю железно';
+			}else if (vocabulary[i][2] === 'Знаю железно'){
+				vocabulary[i][2] = 'Учу';
+			}else {
+				vocabulary[i][2] = 'Знаю';
+			}
+		}
+	}
+	updateBlock();
+}
+
+jq('#know').click(function (){
+	const txtRus = jq('#text-rus').text();
+	if (reverseFlag){
+		addItemArray(repeatWords, txtRus);
+		console.log(repeatWords);
+		localStorage.setItem('repeatWords', repeatWords);
+	}else {
+		knowWord(txtRus);
+	}
+});
+
+jq('#hint').click(function showHelp(){
+	const self = this;
+	const txtRus = jq('#text-rus').text();
+	const boxMessage = jq('.add-msg');
+	jq(self).toggleAction(self);
+	let i = 0;
+	let inglWord;
+	for (i; i < vocabulary.length; i++){
+		if (vocabulary[i][0] === txtRus){
+			inglWord = vocabulary[i][1];
+		}
+	}
+	boxMessage.html(' ');
+	boxMessage.html(inglWord).setCss('color', 'orange').fadeIn(500, function (){
+		boxMessage.fadeOut(500, function (){
+			boxMessage.html(' ').setCss('display', 'block').setCss('opacity', 1);
+			jq(self).toggleAction(self, showHelp);
+		});
+	});
+});
+
+jq('.table-box').hide();
+
+let flag = true;
 
 jq('#words').click(function libr(){
 	const self = this;
@@ -339,78 +383,5 @@ jq('#words').click(function libr(){
 		});
 	}
 });
-
-
-
-
-
-
-
-
-function knowWord(key){
-	for (let i = 0; i < libConfig.vocabulary.length; i++){
-		if (libConfig.vocabulary[i][0] === key){
-			if (libConfig.vocabulary[i][2] === 'Знаю'){
-				libConfig.vocabulary[i][2] = 'Знаю железно';
-			}else if (libConfig.vocabulary[i][2] === 'Знаю железно'){
-				libConfig.vocabulary[i][2] = 'Учу';
-			}else {
-				libConfig.vocabulary[i][2] = 'Знаю';
-			}
-		}
-	}
-	updateBlock();
-}
-
-jq('#know').click(function (){
-	const txtRus = jq('#text-rus').text();
-	if (libConfig.reverseFlag){
-		addItemArray(libConfig.repeatWords, txtRus);
-		console.log(libConfig.repeatWords);
-		localStorage.setItem('learnEnglish', JSON.stringify(libConfig));
-	}else {
-		knowWord(txtRus);
-	}
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-jq('#hint').click(function showHelp(){
-	const self = this;
-	const txtRus = jq('#text-rus').text();
-	const boxMessage = jq('.add-msg');
-	jq(self).toggleAction(self);
-
-	let inglWord;
-	for (let i = 0; i < libConfig.vocabulary.length; i++){
-		if (libConfig.vocabulary[i][0] === txtRus){
-			inglWord = libConfig.vocabulary[i][1];
-		}
-	}
-	boxMessage.html(' ');
-	boxMessage.html(inglWord).setCss('color', 'orange').fadeIn(500, function (){
-		boxMessage.fadeOut(500, function (){
-			boxMessage.html(' ').setCss('display', 'block').setCss('opacity', 1);
-			jq(self).toggleAction(self, showHelp);
-		});
-	});
-});
-
-jq('.table-box').hide();
-
-
 
 
