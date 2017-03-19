@@ -6,7 +6,20 @@
  * @type {Object}
  */
 let libConfig = {
-	vocabulary: [['пример', 'example', 'Учу']],
+	vocabulary: [
+								['январь', 'january', 'Учу'],
+								['февраль', 'february', 'Учу'],
+								['март', 'march', 'Учу'],
+								['апрель', 'april', 'Учу'],
+								['май', 'may', 'Учу'],
+								['июнь', 'june', 'Учу'],
+								['июль', 'jule', 'Учу'],
+								['август', 'august', 'Учу'],
+								['сентябрь', 'september', 'Учу'],
+								['октябрь', 'october', 'Учу'],
+								['ноябрь', 'november', 'Учу'],
+								['декабрь', 'december', 'Учу']
+	],
 	repeatWords: [],
 	reverseFlag: false
 };
