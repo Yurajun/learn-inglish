@@ -114,3 +114,36 @@ button {
 	width: 100px;
 	height: 30px;
 }
+
+/* style manual-popap */
+
+.manual-popap__h2 {
+	color: #fff;
+}
+
+.desc__h3 {
+	color: #fff;
+}
+
+.desc__p {
+	color: #fff;
+	font-size: 18px;
+	margin-bottom: -8px;
+	margin-left: 20px;
+}
+
+.desc__p-span {
+	color: #fff;
+}
+
+.desc__p-span_good {
+	color: #0f0;
+}
+
+.desc__p-span_lol {
+	color: #e10;
+}
+
+.desc__p-span_message {
+	color: orange;
+}

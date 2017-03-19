@@ -80,34 +80,59 @@
 	</div>
 	<div class="window-popap"></div>
 	<div class="manual-popap">
-		<h2>Руководство по пользованию</h2>
+		<h2 class="manual-popap__h2">Руководство по пользованию</h2>
 		<ul class="manual-popap__ul">
 			<li class="manual-popap__li">
-				<div class="addWork">
-					<h3>Добавлени слов</h3>
-					<ul class="addWork__ul">
-						<li class="addWork__li">
-							<p class="addWork__p"></p>
-						</li>
-						<li class="addWork__li">
-							<p class="addWork__p"></p>
-						</li>
-						<li class="addWork__li">
-							<p class="addWork__p"></p>
-						</li>
-						<li class="addWork__li">
-							<p class="addWork__p"></p>
-						</li>
-						<li class="addWork__li">
-							<p class="addWork__p"></p>
-						</li>
-					</ul>
+				<h3 class="desc__h3">Добавление слов</h3>
+				<div class="desc__wrapper-p">
+					<p class="desc__p">1. Впишите русское слово в левом окне, английское в правом.</p>
+					<p class="desc__p">2. Нажмите кнопку добавить.</p>
+					<p class="desc__p">3. Добавьте по очереди столько слов, сколько вам нужно выучить.</p>
+					<p class="desc__p">4. Если такого слова нет, то оно добавится в словарь.</p>
+					<p class="desc__p">5. Если такое слово есть, то приложение выдаст сообщение <span class="desc__p-span desc__p-span_lol">"Такое слово уже есть в словаре".</span></p>
+					<p class="desc__p">6. В левом поле появится слово для теста.</p>
 				</div>
 			</li>
-			<li class="manual-popap__li"></li>
-			<li class="manual-popap__li"></li>
-			<li class="manual-popap__li"></li>
-			<li class="manual-popap__li"></li>
+			<li class="manual-popap__li">
+				<h3 class="desc__h3">Проверка слов</h3>
+				<div class="add-work__wrapper-p">
+					<p class="desc__p">1. В левом поле появится слово по-русски.</p>
+					<p class="desc__p">2. Впишите правильный ответ в правом поле и нажмите <span class="desc__p-span desc__p-span_message">"enter"</span> или кнопку <span class="desc__p-span desc__p-span_message">"Проверить"</span></p>
+					<p class="desc__p">3. Если ответ верен, то приложение скажет <span class="desc__p-span desc__p-span desc__p-span_good">"Все верно!!!!!!!".</span></p>
+					<p class="desc__p">4. Если ответ не верен то приложение выдаст <span class="desc__p-span desc__p-span_lol">"Ответ не верен(((".</span></p>
+					<p class="desc__p">5. Программа не позволит продолжить пока не будет введен правильный ответ</p>
+					<p class="desc__p">6. Слова для проверки выбираются в случайном порядке</p>
+					<p class="desc__p">6. Если вы забыли слово нажмите кнопку <span class="desc__p-span desc__p-span_message">"Подсказка"</span></p>
+				</div>
+			</li>
+			<li class="manual-popap__li">
+				<h3 class="desc__h3">Кнопка <span class="desc__p-span desc__p-span_message">"Подсказка"</span></h3>
+				<div class="add-work__wrapper-p">
+					<p class="desc__p">1. Подсказывает правильный ответ.</p>
+					<p class="desc__p">2. В режиме проверки выученных слов <span class="desc__p-span desc__p-span_message">"Проверяю выученное"</span> переместит это слово из списка <span class="desc__p-span desc__p-span_message">"Знаю"</span> в список <span class="desc__p-span desc__p-span_message">"Учу"</span></p>
+				</div>
+			</li>
+			<li class="manual-popap__li">
+				<h3 class="desc__h3">Кнопка <span class="desc__p-span desc__p-span_message">"Я уже знаю слово"</span></h3>
+				<div class="add-work__wrapper-p">
+					<p class="desc__p">1. Переместит слово, которое отображено в левом окне из списка <span class="desc__p-span desc__p-span_message">"Учу"</span> в список <span class="desc__p-span desc__p-span_message">"Знаю"</span>.</p>
+					<p class="desc__p">2. Выдаст следующее слово для проверки</p>
+					<p class="desc__p">2. Посмотреть на список слов, которые находятся в категории <span class="desc__p-span desc__p-span_message">"Знаю"</span> и <span class="desc__p-span desc__p-span_message">"Учу"</span> можно нажав кнопку <span class="desc__p-span desc__p-span_message">"Показать словарь"</span></p>
+				</div>
+			</li>
+			<li class="manual-popap__li">
+				<h3 class="desc__h3">Кнопка <span class="desc__p-span desc__p-span_message">"Учу"</span></h3>
+				<div class="add-work__wrapper-p">
+					<p class="desc__p">1. Отображает статус, в котором вы сейчас находитесь</p>
+					<p class="desc__p">2. Статус <span class="desc__p-span desc__p-span_message">"Учу"</span> позволяет пользоваться словарем, добавлять слова в словарь.</p>
+					<p class="desc__p">2. Статус <span class="desc__p-span desc__p-span_message">"Проверка выученного"</span> не пустит в словарь, не даст добавлять другие слова</p>
+					<p class="desc__p">3. Статус <span class="desc__p-span desc__p-span_message">"Проверка выученного"</span> будут перебираться все слова в словаре отмеченные как <span class="desc__p-span desc__p-span desc__p-span_good">"Знаю"</span>. Перебор будет идти в случайном порядке, но программа будет помнить о тех словах, которые она выводила и не задаст их повторно.</p>
+					<p class="desc__p">4. Статус <span class="desc__p-span desc__p-span_message">"Проверка выученного"</span> кнопка <span class="desc__p-span desc__p-span_message">"Отметить для повторения"</span> и кнопка <span class="desc__p-span desc__p-span_message">"подсказка"</span> работают одинаково ( т.е. переведут слова из списка <span class="desc__p-span desc__p-span_message">"Знаю"</span> в список <span class="desc__p-span desc__p-span_message">"Учу".</span></p>
+					<p class="desc__p">5. После завершения повторения, приложение само переключится в режим <span class="desc__p-span desc__p-span_good">"Учу".</span></p>
+					<p class="desc__p">6. Вы можете самостоятельно переключиться обратно в режим <span class="desc__p-span desc__p-span_good">"Учу"</span> нажав на кнопку <span class="desc__p-span desc__p-span_message">"Проверка выученного"</span></p>
+					<p class="desc__p">7. Перезагрузка приложения не позволит выйти из режима <span class="desc__p-span desc__p-span_message">"Проверка выученного"</span>, но вот список слов которые были проверены утратится и проверка будет проводиться заново</p>
+				</div>
+			</li>
 		</ul>
 	</div>
 	<script src="js/js.js"></script>
