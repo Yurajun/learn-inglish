@@ -191,6 +191,7 @@ function updateBlock(){
 	}
 }
 
+
 function repeatWordsAddLearn(){
 	// if ()
 }
