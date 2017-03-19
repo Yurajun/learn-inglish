@@ -10,7 +10,7 @@
 			<td>{{ID}}</td>
 			<td>{{RUS}}</td>
 			<td>{{ING}}</td>
-			<td class="know-word" onclick='knowWord("{{RUS}}")'>{{KNOW}}</td><td class="redact-word" onclick='redactWord("{{RUS}}")'>Редакт</td>
+			<td class="know-word" onclick='knowWord("{{RUS}}")'>{{KNOW}}</td><td class="redact-word" onclick='redactWord("{{RUS}}", "{{ING}}")'>Редакт</td>
 			<td class="delete-word"onclick='deletWord("{{RUS}}")'>X</td>
 		</tr>
 	</script>
@@ -21,6 +21,22 @@
 				<div class="popap__button-box">
 					<button class="popap-button yes-delete">Да</button>
 					<button class="popap-button no-delete">Нет</button>
+				</div>
+			</div>
+		</div>
+	</script>
+	<script id="my-template__edit-popap" type="text/my-template">
+		<div class="popap">
+			<div class="popap-wrapper">
+				<div class="input-text__wrapper">
+					<input class="rus-word" type="text" value="{{RUS}}">
+				</div>
+				<div class="input-text__wrapper">
+					<input class="ing-word" type="text" value="{{ING}}">
+				</div>
+				<div class="popap__button-box">
+						<button class="popap-button yes-save">Сохранить</button>
+						<button class="popap-button no-save">Нет</button>
 				</div>
 			</div>
 		</div>
@@ -63,6 +79,37 @@
 		</table>
 	</div>
 	<div class="window-popap"></div>
+	<div class="manual-popap">
+		<h2>Руководство по пользованию</h2>
+		<ul class="manual-popap__ul">
+			<li class="manual-popap__li">
+				<div class="addWork">
+					<h3>Добавлени слов</h3>
+					<ul class="addWork__ul">
+						<li class="addWork__li">
+							<p class="addWork__p"></p>
+						</li>
+						<li class="addWork__li">
+							<p class="addWork__p"></p>
+						</li>
+						<li class="addWork__li">
+							<p class="addWork__p"></p>
+						</li>
+						<li class="addWork__li">
+							<p class="addWork__p"></p>
+						</li>
+						<li class="addWork__li">
+							<p class="addWork__p"></p>
+						</li>
+					</ul>
+				</div>
+			</li>
+			<li class="manual-popap__li"></li>
+			<li class="manual-popap__li"></li>
+			<li class="manual-popap__li"></li>
+			<li class="manual-popap__li"></li>
+		</ul>
+	</div>
 	<script src="js/js.js"></script>
 </body>
 </html>

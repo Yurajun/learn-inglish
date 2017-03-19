@@ -1,6 +1,10 @@
 /* eslint no-labels: ["error", { "allowLoop": true }]*/
 /* global jq */
 
+/**
+ * [libConfig global obj хронящийся в localStorage]
+ * @type {Object}
+ */
 let libConfig = {
 	vocabulary: [],
 	repeatWords: [],
@@ -9,9 +13,13 @@ let libConfig = {
 
 /**
  * [getVocabulary получает базу данных из localStorage]
- * @return {[type]} [no-return]
+ * @return [no-return]
  */
 function getVocabulary(){
+	/**
+	 * [state получаем значение из localStorage]
+	 * @type {object}
+	 */
 	const state = localStorage.getItem('learnEnglish');
 	if (state) {
 		libConfig = JSON.parse(state);
@@ -24,7 +32,12 @@ function getVocabulary(){
 
 getVocabulary();
 
-function repeatWordsAddLearn(){
+/**
+ * [replaceForgottenWords работает со словами которые забыл
+ * 												изменяет общий словарь]
+ * @return [no-return]
+ */
+function replaceForgottenWords(){
 	if (libConfig.repeatWords.length === 0){
 		return;
 	}
@@ -178,14 +191,8 @@ function checkWord(word){
 	}
 }
 
-function updateLocalStorage(arrayWords){
-	libConfig.vocabulary = arrayWords;
-	localStorage.setItem('learnEnglish', JSON.stringify(libConfig));
-}
-
 function updateBlock(){
 	libConfig.vocabulary.sort(mySort);
-	// updateLocalStorage(libConfig.vocabulary);
 	localStorage.setItem('learnEnglish', JSON.stringify(libConfig));
 	updateTable();
 	if (libConfig.reverseFlag){
@@ -224,7 +231,7 @@ function deletWord(key){
 	const templatePopap = jq('#my-template__popap').html();
 	const windowPopap = jq('.window-popap');
 	const body = jq('body');
-	function createWord(word) {
+	function createWord(word){
 		return templatePopap.replace(/{{WORD}}/ig, word);
 	}
 	body.setCss('overflow', 'hidden');
@@ -244,7 +251,7 @@ function deletWord(key){
 					libConfig.vocabulary.splice(i, 1);
 				}
 			}
-			updateLocalStorage(libConfig.vocabulary);
+			localStorage.setItem('learnEnglish', JSON.stringify(libConfig));
 			updateBlock();
 		});
 		jq('.no-delete').click(function noDelete(){
@@ -295,7 +302,7 @@ function updateReverse(){
 		libConfig.reverseFlag = false;
 		buttonLibrary.disabled = false;
 		flag = true;
-		repeatWordsAddLearn();
+		replaceForgottenWords();
 		buttonWords.html('Показать словарь');
 	}else {
 		libConfig.reverseFlag = true;
@@ -341,13 +348,6 @@ jq('#words').click(function libr(){
 	}
 });
 
-
-
-
-
-
-
-
 function knowWord(key){
 	for (let i = 0; i < libConfig.vocabulary.length; i++){
 		if (libConfig.vocabulary[i][0] === key){
@@ -363,11 +363,7 @@ function knowWord(key){
 	updateBlock();
 }
 
-
-// let wordRus;
-// let wordIng;
 jq('#know').click(function (){
-	// const txtRus = jq('#text-rus').text();
 	if (libConfig.reverseFlag){
 		addItemArray(libConfig.repeatWords, wordRus);
 		console.log(libConfig.repeatWords);
@@ -377,24 +373,8 @@ jq('#know').click(function (){
 	}
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 jq('#hint').click(function showHelp(){
 	const self = this;
-	// const wordRus = jq('#text-rus').text();
 	const boxMessage = jq('.add-msg');
 	jq(self).toggleAction(self);
 
@@ -419,6 +399,45 @@ jq('#hint').click(function showHelp(){
 });
 
 
-function redactWord(){
-	
+function redactWord(rus, ing){
+	const templatePopap = jq('#my-template__edit-popap').html();
+	const windowPopap = jq('.window-popap');
+	const body = jq('body');
+	function createWord(r, i){
+		return templatePopap.replace(/{{RUS}}/ig, r)
+												.replace(/{{ING}}/ig, i);
+	}
+	body.setCss('overflow', 'hidden');
+	windowPopap.html(' ');
+	windowPopap.html(createWord(rus, ing)).fadeIn(300, function (){
+		jq('.yes-save').click(function yesSave(){
+			const inputRusText = jq('.rus-word').text();
+			const inputIngText = jq('.ing-word').text();
+			const self = this;
+			jq(self).toggleAction(self);
+			windowPopap.fadeOut(300, function (){
+				windowPopap.hide();
+				jq(self).toggleAction(self, yesSave);
+				body.setCss('overflow', 'auto');
+			});
+
+			for (let i = 0; i < libConfig.vocabulary.length; i++){
+				if (libConfig.vocabulary[i][0] === rus){
+					libConfig.vocabulary[i][0] = inputRusText;
+					libConfig.vocabulary[i][1] = inputIngText;
+				}
+			}
+			localStorage.setItem('learnEnglish', JSON.stringify(libConfig));
+			updateBlock();
+		});
+		jq('.no-save').click(function noSave(){
+			const self = this;
+			jq(self).toggleAction(self);
+			windowPopap.fadeOut(300, function (){
+				windowPopap.hide();
+				jq(self).toggleAction(self, noSave);
+				body.setCss('overflow', 'auto');
+			});
+		});
+	});
 }
