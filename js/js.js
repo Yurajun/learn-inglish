@@ -24,22 +24,26 @@ function getVocabulary(){
 
 getVocabulary();
 
-function adda(arr, vac){
+function repeatWordsAddLearn(){
+	if (libConfig.repeatWords.length === 0){
+		return;
+	}
 	let num = 0;
 	metka:
-	for (let i = 0; i < vac.length; i++){
-		const str = vac[i][0];
-		for (let j = 0; j < arr.length; j++){
-			if (str === arr[j]){
-				vac[i][2] = 'znayu';
-				if (++num === arr.length){
+	for (let i = 0; i < libConfig.vocabulary.length; i++){
+		const str = libConfig.vocabulary[i][0];
+		for (let j = 0; j < libConfig.repeatWords.length; j++){
+			if (str === libConfig.repeatWords[j]){
+				libConfig.vocabulary[i][2] = 'Учу';
+				if (++num === libConfig.repeatWords.length){
 					break metka;
 				}
 				break;
 			}
 		}
 	}
-	console.log(vac);
+	console.log(libConfig.repeatWords);
+	libConfig.repeatWords.length = 0;
 }
 
 function mySort(val1, val2){
@@ -191,11 +195,6 @@ function updateBlock(){
 	}
 }
 
-
-function repeatWordsAddLearn(){
-	// if ()
-}
-
 jq('#add-word').click(function (){
 	const arr = new Array(3);
 	const boxMessage = jq('.add-msg');
@@ -296,6 +295,7 @@ function updateReverse(){
 		libConfig.reverseFlag = false;
 		buttonLibrary.disabled = false;
 		flag = true;
+		repeatWordsAddLearn();
 		buttonWords.html('Показать словарь');
 	}else {
 		libConfig.reverseFlag = true;
@@ -363,14 +363,17 @@ function knowWord(key){
 	updateBlock();
 }
 
+
+// let wordRus;
+// let wordIng;
 jq('#know').click(function (){
-	const txtRus = jq('#text-rus').text();
+	// const txtRus = jq('#text-rus').text();
 	if (libConfig.reverseFlag){
-		addItemArray(libConfig.repeatWords, txtRus);
+		addItemArray(libConfig.repeatWords, wordRus);
 		console.log(libConfig.repeatWords);
 		localStorage.setItem('learnEnglish', JSON.stringify(libConfig));
 	}else {
-		knowWord(txtRus);
+		knowWord(wordRus);
 	}
 });
 
@@ -391,13 +394,18 @@ jq('#know').click(function (){
 
 jq('#hint').click(function showHelp(){
 	const self = this;
-	const txtRus = jq('#text-rus').text();
+	// const wordRus = jq('#text-rus').text();
 	const boxMessage = jq('.add-msg');
 	jq(self).toggleAction(self);
 
+	if (libConfig.reverseFlag){
+		addItemArray(libConfig.repeatWords, wordRus);
+		localStorage.setItem('learnEnglish', JSON.stringify(libConfig));
+	}
+	console.log(libConfig.repeatWords);
 	let inglWord;
 	for (let i = 0; i < libConfig.vocabulary.length; i++){
-		if (libConfig.vocabulary[i][0] === txtRus){
+		if (libConfig.vocabulary[i][0] === wordRus){
 			inglWord = libConfig.vocabulary[i][1];
 		}
 	}
@@ -410,8 +418,7 @@ jq('#hint').click(function showHelp(){
 	});
 });
 
-jq('.table-box').hide();
 
-
-
-
+function redactWord(){
+	
+}

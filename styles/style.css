@@ -41,6 +41,7 @@
 }
 .table-box {
 	margin: 20px;
+	display: none;
 }
 .message-box {
 	width: 500px;
