@@ -6,9 +6,9 @@
  * @type {Object}
  */
 let libConfig = {
-	vocabulary: [],
+	vocabulary: [['пример', 'example', 'Учу']],
 	repeatWords: [],
-	reverseFlag: 'false'
+	reverseFlag: false
 };
 
 /**
@@ -124,6 +124,7 @@ function getRandomWordReverse(){
 }
 
 getRandomWord();
+
 
 function checkResult(){
 	const inputTextIng = document.querySelector('#text-ingl');
