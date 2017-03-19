@@ -288,6 +288,7 @@ const tableBox = document.querySelector('.table-box');
 let flag = true;
 
 const buttonWords = jq('#words');
+const buttonAddWord = document.querySelector('#add-word');
 
 function updateReverse(){
 	for (let i = 0; i < libConfig.vocabulary.length; i++){
@@ -301,12 +302,14 @@ function updateReverse(){
 	if (libConfig.reverseFlag){
 		libConfig.reverseFlag = false;
 		buttonLibrary.disabled = false;
+		buttonAddWord.disabled = false;
 		flag = true;
 		replaceForgottenWords();
 		buttonWords.html('Показать словарь');
 	}else {
 		libConfig.reverseFlag = true;
 		buttonLibrary.disabled = true;
+		buttonAddWord.disabled = true;
 		flag = false;
 		jq('.table-box').fadeOut(600, function (){
 			jq('.table-box').hide();
@@ -322,6 +325,7 @@ jq('#reverse').click(updateReverse);
 if (libConfig.reverseFlag){
 	reverseLibrary();
 	buttonLibrary.disabled = true;
+	buttonAddWord.disabled = true;
 	flag = false;
 	tableBox.style.display = 'none';
 	buttonWords.html(' ');
