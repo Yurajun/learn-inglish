@@ -7,18 +7,18 @@
  */
 let libConfig = {
 	vocabulary: [
-								['январь', 'january', 'Учу'],
-								['февраль', 'february', 'Учу'],
-								['март', 'march', 'Учу'],
-								['апрель', 'april', 'Учу'],
-								['май', 'may', 'Учу'],
-								['июнь', 'june', 'Учу'],
-								['июль', 'jule', 'Учу'],
-								['август', 'august', 'Учу'],
-								['сентябрь', 'september', 'Учу'],
-								['октябрь', 'october', 'Учу'],
-								['ноябрь', 'november', 'Учу'],
-								['декабрь', 'december', 'Учу']
+               ['январь', 'january', 'Учу'],
+               ['февраль', 'february', 'Учу'],
+               ['март', 'march', 'Знаю железно'],
+               ['апрель', 'april', 'Знаю железно'],
+               ['май', 'may', 'Знаю железно'],
+               ['июнь', 'june', 'Знаю'],
+               ['июль', 'jule', 'Знаю'],
+               ['август', 'august', 'Знаю'],
+               ['сентябрь', 'september', 'Учу'],
+               ['октябрь', 'october', 'Учу'],
+               ['ноябрь', 'november', 'Учу'],
+               ['декабрь', 'december', 'Учу']
 	],
 	repeatWords: [],
 	reverseFlag: false
@@ -47,7 +47,7 @@ getVocabulary();
 
 /**
  * [replaceForgottenWords работает со словами которые забыл
- * 												изменяет общий словарь]
+ *                        изменяет общий словарь]
  * @return [no-return]
  */
 function replaceForgottenWords(){
@@ -175,9 +175,9 @@ function updateTable(){
 
 	function createRow(p) {
 		return template.replace(/{{ID}}/ig, p.id)
-									.replace(/{{RUS}}/ig, p.key)
-									.replace(/{{ING}}/ig, p.val)
-									.replace(/{{KNOW}}/ig, p.know);
+                   .replace(/{{RUS}}/ig, p.key)
+                   .replace(/{{ING}}/ig, p.val)
+                   .replace(/{{KNOW}}/ig, p.know);
 	}
 
 	let numberId = 1;
@@ -423,7 +423,7 @@ function redactWord(rus, ing){
 	const body = jq('body');
 	function createWord(r, i){
 		return templatePopap.replace(/{{RUS}}/ig, r)
-												.replace(/{{ING}}/ig, i);
+                        .replace(/{{ING}}/ig, i);
 	}
 	body.setCss('overflow', 'hidden');
 	windowPopap.html(' ');
