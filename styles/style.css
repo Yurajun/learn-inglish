@@ -132,6 +132,10 @@ button {
 	margin-left: 20px;
 }
 
+.desc__p_indent {
+	margin-left: 50px;
+}
+
 .desc__p-span {
 	color: #fff;
 }
