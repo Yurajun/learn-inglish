@@ -195,6 +195,7 @@ function updateTable(){
 }
 
 updateTable();
+updateBlock();
 
 function checkWord(word){
 	let i = 0;
